@@ -11,55 +11,51 @@ class SettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('การตั้งค่าแอปพลิเคชัน'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // 1. Font Family[cite: 1]
-          const Text('Font Family', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          DropdownButton<String>(
-            value: settings.fontFamily,
-            isExpanded: true,
-            items: const [
-              DropdownMenuItem(value: 'SansSerif', child: Text('SansSerif')),
-              DropdownMenuItem(value: 'Serif', child: Text('Serif')),
-              DropdownMenuItem(value: 'Monospace', child: Text('Monospace')),
-            ],
-            onChanged: (String? newFont) {
-              if (newFont != null) settings.setFontFamily(newFont);
-            },
-          ),
-          const Divider(height: 30),
-
-          // 2. Font Size[cite: 1]
-          const Text('Font Size', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          RadioListTile<double>(
-            title: const Text('Small (14px)'),
-            value: 14.0, // Small[cite: 1]
-            groupValue: settings.fontSize,
-            onChanged: (double? value) {
-              if (value != null) settings.setFontSize(value);
-            },
-          ),
-          RadioListTile<double>(
-            title: const Text('Large (20px)'),
-            value: 20.0, // Large[cite: 1]
-            groupValue: settings.fontSize,
-            onChanged: (double? value) {
-              if (value != null) settings.setFontSize(value);
-            },
-          ),
-          const Divider(height: 30),
-
-          // 3. Display Mode[cite: 1]
-          const Text('Display Mode', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           SwitchListTile(
-            title: Text(settings.isDarkMode ? 'Dark Mode' : 'Light Mode'),
+            title: const Text('โหมดมืด (Dark Mode)'),
             value: settings.isDarkMode,
-            onChanged: (bool value) {
-              settings.toggleTheme(value);
+            onChanged: (value) {
+              settings.toggleDarkMode(value);
             },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('ขนาดตัวอักษร'),
+            trailing: DropdownButton<double>(
+              value: settings.fontSize,
+              items: const [
+                DropdownMenuItem(value: 14.0, child: Text('เล็ก (14px)')),
+                DropdownMenuItem(value: 17.0, child: Text('กลาง (17px)')),
+                DropdownMenuItem(value: 20.0, child: Text('ใหญ่ (20px)')),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  settings.setFontSize(value);
+                }
+              },
+            ),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('รูปแบบตัวอักษร'),
+            trailing: DropdownButton<String>(
+              value: settings.fontFamily,
+              items: const [
+                DropdownMenuItem(value: 'Roboto', child: Text('Roboto')),
+                DropdownMenuItem(value: 'Sarabun', child: Text('Sarabun')),
+                DropdownMenuItem(value: 'Kanit', child: Text('Kanit')),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  settings.setFontFamily(value);
+                }
+              },
+            ),
           ),
         ],
       ),
